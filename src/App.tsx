@@ -1,13 +1,30 @@
-import React from 'react'
 import Channel from './components/Channel'
 import { useUser } from './context/user'
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+import Nav from './components/Nav'
+import Login from './components/Login'
 
 const App = () => {
-  const {user, login} = useUser()
+  const {user} = useUser()
   return (
-    <div>
-      {user? <Channel/> : <button onClick={login}>Login with Google</button>}
-    </div>
+    <main>
+      {!user? <Login/> :
+      <Router>
+        <Nav />
+        <Switch>
+        <Route exact path="/">
+            <Channel title="general" />
+          </Route>
+          <Route path="/react">
+            <Channel title="react" />
+          </Route>
+          <Route path="/css">
+            <Channel title="css" />
+          </Route>
+        </Switch>
+      </Router>
+      }
+    </main>
   )
 }
 
